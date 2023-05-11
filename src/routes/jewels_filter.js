@@ -46,8 +46,9 @@ const getJewelsFilter = async (req, res) => {
 
     const paramArray = paramsToArray(req.query.filters);
     const whereClause = buildWhereClause(paramArray);
+    console.log(whereClause);
 
-    const finalQuery = `SELECT * FROM ${table_name} ${whereClause} ${orderByQuery} ${offsetQuery} ${limitQuery}`;
+    const finalQuery = `SELECT * FROM ${table_name} ${whereClause} ${orderByQuery} ${offsetQuery} ${limitQuery};`;
 
     const result = await query(finalQuery);
 

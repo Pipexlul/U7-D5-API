@@ -47,7 +47,7 @@ const getJewel = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const result = await query(`SELECT * FROM ${table_name} WHERE id = $1`, [
+    const result = await query(`SELECT * FROM ${table_name} WHERE id = $1;`, [
       id,
     ]);
 
