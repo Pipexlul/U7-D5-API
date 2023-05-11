@@ -5,19 +5,29 @@ const jewelQueries = (req, res, next) => {
   const formatted = {};
 
   if (limit) {
-    const limitNum = parseInt(limit);
-    if (isNaN(limitNum)) {
-      res.status(400).json({ error: "limit query debe ser un número entero" });
-      return;
+    if (limit.toLowerCase() === "all") {
+      formatted.limit = -1;
     }
 
-    formatted.limit = limitNum;
+    if (!formatted.limit) {
+      const limitNum = parseInt(limit);
+      if (isNaN(limitNum) || limitNum <= 0) {
+        res.status(400).json({
+          error:
+            "limit query debe ser un número entero mayor a 0 o la palabra 'all'",
+        });
+        return;
+      }
+      formatted.limit = limitNum;
+    }
   }
 
   if (page) {
     const pageNum = parseInt(page);
-    if (isNaN(pageNum)) {
-      res.status(400).json({ error: "page query debe ser un número entero" });
+    if (isNaN(pageNum) || pageNum <= 0) {
+      res
+        .status(400)
+        .json({ error: "page query debe ser un número entero mayor a 0" });
       return;
     }
 
@@ -33,7 +43,14 @@ const jewelQueries = (req, res, next) => {
       return;
     }
 
-    const validColumns = ["nombre", "categoria", "metal", "precio", "stock"];
+    const validColumns = [
+      "id",
+      "nombre",
+      "categoria",
+      "metal",
+      "precio",
+      "stock",
+    ];
     const validOrders = ["ASC", "DESC"];
     if (!validColumns.includes(column.toLowerCase())) {
       res.status(400).json({
@@ -56,10 +73,10 @@ const jewelQueries = (req, res, next) => {
 
   if (precio_max) {
     const precio_maxNum = parseInt(precio_max);
-    if (isNaN(precio_maxNum)) {
-      res
-        .status(400)
-        .json({ error: "precio_max query debe ser un número entero" });
+    if (isNaN(precio_maxNum) || precio_maxNum <= 0) {
+      res.status(400).json({
+        error: "precio_max query debe ser un número entero mayor a 0",
+      });
       return;
     }
 
@@ -68,10 +85,10 @@ const jewelQueries = (req, res, next) => {
 
   if (precio_min) {
     const precio_minNum = parseInt(precio_min);
-    if (isNaN(precio_minNum)) {
-      res
-        .status(400)
-        .json({ error: "precio_min query debe ser un número entero" });
+    if (isNaN(precio_minNum) || precio_minNum <= 0) {
+      res.status(400).json({
+        error: "precio_min query debe ser un número entero mayor a 0",
+      });
       return;
     }
 
