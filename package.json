@@ -2,11 +2,19 @@
   "name": "d5-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/index.js",
+    "start:skip": "node ./src/index.js -- --skip-recreate",
+    "watch": "npx nodemon ./src/index.js",
+    "watch:skip": "npx nodemon ./src/index.js -- --skip-recreate"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "name": "Felipe Guajardo",
+    "email": "felipgg@gmail.com",
+    "url": "https://github.com/pipexlul"
+  },
+  "license": "ISC",
+  "type": "module"
 }
