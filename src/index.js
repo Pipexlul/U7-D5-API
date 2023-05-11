@@ -7,6 +7,7 @@ import cors from "cors";
 import jewelQueries from "./middleware/query/jewelsQueries.js";
 
 import jewelRoutes from "./routes/jewels.js";
+import jewelsFilterRoutes from "./routes/jewels_filter.js";
 
 import routeValidators from "./middleware/validators/routes.js";
 
@@ -20,6 +21,7 @@ const main = () => {
   app.use(express.json());
 
   app.get("/jewels", jewelQueries, jewelRoutes.getJewels);
+  app.get("/jewels/filter", jewelQueries, jewelsFilterRoutes.getJewelsFilter);
   app.get(
     "/jewels/:id",
     jewelQueries,

@@ -16,7 +16,7 @@ const buildWhereClause = (params) => {
       const lcColumn = column.toLowerCase();
       const lcFilter = filter.toLowerCase();
 
-      const validColumns = ["price"];
+      const validColumns = ["precio"];
       const validFilters = { min: ">=", max: "<=" };
 
       if (!validColumns.includes(lcColumn)) {
@@ -38,7 +38,7 @@ const buildWhereClause = (params) => {
       }
 
       const filterQuery = pgFormat(
-        idx === arr.length - 1 ? "%s %s %s" : "%s %s %s AND",
+        idx === arr.length - 1 ? "%s %s %s" : "%s %s %s AND ",
         lcColumn,
         validFilters[lcFilter],
         param.value
