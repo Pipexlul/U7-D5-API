@@ -30,6 +30,10 @@ const main = () => {
     jewelRoutes.getJewel
   );
 
+  app.get("*", (req, res) => {
+    res.status(404).json({ error: "Esa ruta no existe!" });
+  });
+
   app.listen(DEFAULT_PORT, () => {
     console.log(`Server running on port ${DEFAULT_PORT}`);
   });
