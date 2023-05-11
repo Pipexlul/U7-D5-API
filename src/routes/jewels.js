@@ -3,21 +3,16 @@ import pgFormat from "pg-format";
 import dbManager from "../database/manager.js";
 const { query } = dbManager;
 
-import dbPoolConfig from "../config/dbPoolConfig.js";
-
 import asyncMiddleware from "../middleware/asyncMiddleware.js";
+
+import { loadTableName } from "../utils/envUtils.js";
 
 let table_name;
 
-const loadTableName = () => {
-  if (table_name == null) {
-    const config = dbPoolConfig();
-    table_name = config.table;
-  }
-};
+const tableNameLoader = () => loadTableName(table_name);
 
 const getJewels = async (req, res) => {
-  loadTableName();
+  tableNameLoader();
 
   try {
     const { limit = 5, page = 1, order_by } = req.query;
@@ -40,7 +35,7 @@ const getJewels = async (req, res) => {
 };
 
 const getJewel = async (req, res) => {
-  loadTableName();
+  tableNameLoader();
 
   try {
     const { id } = req.params;
