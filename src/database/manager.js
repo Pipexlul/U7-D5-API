@@ -1,14 +1,14 @@
 import pg from "pg";
 const { Pool } = pg;
 
-import recreateDb from "./utils/recreateDatabase";
-import dbPoolConfig from "../config/dbPoolConfig";
-
-const config = dbPoolConfig();
+import recreateDb from "./utils/recreateDatabase.js";
+import dbPoolConfig from "../config/dbPoolConfig.js";
 
 let dbPool;
 
 const getManager = async () => {
+  const config = dbPoolConfig();
+
   const args = process.argv.slice(2);
 
   if (
