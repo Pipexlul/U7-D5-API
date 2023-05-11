@@ -12,8 +12,9 @@ import jewelsFilterRoutes from "./routes/jewels_filter.js";
 import routeValidators from "./middleware/validators/routes.js";
 
 const main = () => {
-  const portNum = parseInt(process.env.DEFAULT_PORT);
+  const portNum = parseInt(process.env.TEST_PORT);
   const DEFAULT_PORT = portNum || 3000;
+  process.env.TEST_PORT = DEFAULT_PORT;
 
   const app = express();
 

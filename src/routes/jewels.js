@@ -7,6 +7,8 @@ import asyncMiddleware from "../middleware/asyncMiddleware.js";
 
 import { loadTableName } from "../utils/envUtils.js";
 
+import { transformResponse } from "../utils/HATEOAS.js";
+
 let table_name;
 
 const tableNameLoader = () => {
@@ -34,7 +36,14 @@ const getJewels = async (req, res) => {
 
     const result = await query(finalQuery);
 
-    res.status(200).json(result.rows);
+    const HATEOASResponse = transformResponse(
+      undefined,
+      process.env.TEST_PORT,
+      "jewels",
+      result.rows
+    );
+
+    res.status(200).json(HATEOASResponse);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
