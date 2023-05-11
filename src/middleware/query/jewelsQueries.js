@@ -2,14 +2,17 @@ const jewelQueries = (req, res, next) => {
   const { limit, page, order_by, precio_max, precio_min, categoria, metal } =
     req.query;
 
-  const formatted = {};
+  const formatted = {
+    base: {},
+    filters: {},
+  };
 
   if (limit) {
     if (limit.toLowerCase() === "all") {
-      formatted.limit = -1;
+      formatted.base.limit = -1;
     }
 
-    if (!formatted.limit) {
+    if (!formatted.base.limit) {
       const limitNum = parseInt(limit);
       if (isNaN(limitNum) || limitNum <= 0) {
         res.status(400).json({
@@ -18,7 +21,7 @@ const jewelQueries = (req, res, next) => {
         });
         return;
       }
-      formatted.limit = limitNum;
+      formatted.base.limit = limitNum;
     }
   }
 
@@ -31,7 +34,7 @@ const jewelQueries = (req, res, next) => {
       return;
     }
 
-    formatted.page = pageNum;
+    formatted.base.page = pageNum;
   }
 
   if (order_by) {
@@ -68,7 +71,7 @@ const jewelQueries = (req, res, next) => {
       return;
     }
 
-    formatted.order_by = { column, order };
+    formatted.base.order_by = { column, order };
   }
 
   if (precio_max) {
@@ -80,7 +83,7 @@ const jewelQueries = (req, res, next) => {
       return;
     }
 
-    formatted.precio_max = precio_maxNum;
+    formatted.filters.precio_max = precio_maxNum;
   }
 
   if (precio_min) {
@@ -92,15 +95,15 @@ const jewelQueries = (req, res, next) => {
       return;
     }
 
-    formatted.precio_min = precio_minNum;
+    formatted.filters.precio_min = precio_minNum;
   }
 
   if (categoria) {
-    formatted.categoria = categoria.toLowerCase();
+    formatted.filters.categoria = categoria.toLowerCase();
   }
 
   if (metal) {
-    formatted.metal = metal.toLowerCase();
+    formatted.filters.metal = metal.toLowerCase();
   }
 
   req.query = formatted;
