@@ -35,10 +35,33 @@ const getJewels = async (req, res) => {
     res.status(200).json(result.rows);
   } catch (err) {
     console.error(err);
-    res.status(500).json(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const getJewel = async (req, res) => {
+  loadTableName();
+
+  try {
+    const { id } = req.params;
+
+    const result = await query(`SELECT * FROM ${table_name} WHERE id = $1`, [
+      id,
+    ]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: `No existe la joya con id: ${id}` });
+      return;
+    }
+
+    res.status(200).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
   }
 };
 
 export default {
   getJewels: asyncMiddleware(getJewels),
+  getJewel: asyncMiddleware(getJewel),
 };
