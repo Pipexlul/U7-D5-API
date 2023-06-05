@@ -68,4 +68,6 @@ const buildWhereClause = (params) => {
   return whereClause;
 };
 
-export { buildWhereClause };
+const initDatabase = async () => {};
+
+export { buildWhereClause, initDatabase };

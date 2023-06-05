@@ -5,23 +5,9 @@ const { query } = dbManager;
 
 import asyncMiddleware from "../middleware/asyncMiddleware.js";
 
-import { loadTableName } from "../utils/envUtils.js";
-
 import { transformResponse } from "../utils/HATEOAS.js";
 
-let table_name;
-
-const tableNameLoader = () => {
-  if (table_name) {
-    return;
-  }
-
-  table_name = loadTableName(table_name);
-};
-
 const getJewels = async (req, res) => {
-  tableNameLoader();
-
   try {
     const { limit = 5, page = 1, order_by } = req.query.base;
 
@@ -51,8 +37,6 @@ const getJewels = async (req, res) => {
 };
 
 const getJewel = async (req, res) => {
-  tableNameLoader();
-
   try {
     const { id } = req.params;
 

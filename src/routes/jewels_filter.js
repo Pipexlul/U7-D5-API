@@ -5,23 +5,10 @@ const { query } = dbManager;
 
 import asyncMiddleware from "../middleware/asyncMiddleware.js";
 
-import { loadTableName } from "../utils/envUtils.js";
 import { buildWhereClause } from "../utils/sqlUtils.js";
 import { transformResponse } from "../utils/HATEOAS.js";
 
-let table_name;
-
-const tableNameLoader = () => {
-  if (table_name) {
-    return;
-  }
-
-  table_name = loadTableName(table_name);
-};
-
 const getJewelsFilter = async (req, res) => {
-  tableNameLoader();
-
   try {
     const paramsToArray = (filterParams) => {
       const entries = Object.entries(filterParams);

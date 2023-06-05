@@ -5,7 +5,7 @@ import dbPoolConfig from "../../config/dbPoolConfig.js";
 
 const recreateDb = async (pool) => {
   try {
-    const config = dbPoolConfig();
+    const config = dbPoolConfig;
 
     await pool.query(`DROP DATABASE IF EXISTS ${config.database}`);
     await pool.query(`CREATE DATABASE ${config.database}`);

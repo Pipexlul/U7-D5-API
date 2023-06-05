@@ -7,7 +7,7 @@ import dbPoolConfig from "../config/dbPoolConfig.js";
 let dbPool;
 
 const getManager = async () => {
-  const config = dbPoolConfig();
+  const config = dbPoolConfig;
 
   const args = process.argv.slice(2);
 
