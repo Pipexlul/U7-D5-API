@@ -26,7 +26,6 @@ const insertTestData = async (dbPool) => {
 };
 
 export default {
-  tableName: table,
   createTable,
   insertTestData,
 };
