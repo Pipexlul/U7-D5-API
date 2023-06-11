@@ -1,12 +1,12 @@
 import pgFormat from "pg-format";
 
-import dbManager from "../database/manager.js";
+import dbManager from "../../database/manager.js";
 const { query } = dbManager;
 
-import asyncMiddleware from "../middleware/asyncMiddleware.js";
+import asyncMiddleware from "../../middleware/asyncMiddleware.js";
 
-import { buildWhereClause } from "../utils/sqlUtils.js";
-import { transformResponse } from "../utils/HATEOAS.js";
+import { buildWhereClause } from "../../utils/sqlUtils.js";
+import { transformResponse } from "../../utils/HATEOAS.js";
 
 const getJewelsFilter = async (req, res) => {
   try {
