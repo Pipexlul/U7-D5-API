@@ -29,16 +29,18 @@ const main = async () => {
   };
 
   const createTables = async () => {
+    const secondPool = new Pool(dbPoolConfig);
+
     for (const model of models) {
       const {
         modelHelpers: { createTable, insertTestData, tableName },
       } = model;
 
       try {
-        await createTable(dbPool);
+        await createTable(secondPool);
 
         if (insertTestData) {
-          await insertTestData(dbPool);
+          await insertTestData(secondPool);
         }
       } catch (err) {
         console.error(`Error during table creation: ${tableName}`);
@@ -46,14 +48,16 @@ const main = async () => {
         process.exit(1);
       }
     }
+
+    secondPool.end();
   };
 
   try {
     const dbExistsResult = await dbPool.query(
-      `SELECT EXISTS (SELECT FROM pg_database WHERE datname = '${dbPoolConfig.database};')`
+      `SELECT EXISTS (SELECT FROM pg_database WHERE datname = '${dbPoolConfig.database}');`
     );
 
-    const dbExists = dbExistsResult.rows.length > 0;
+    const dbExists = dbExistsResult.rows[0].exists;
     if (dbExists && !forceRecreate) {
       console.log("Database already exists. Skipping creation.");
       process.exit(0);
