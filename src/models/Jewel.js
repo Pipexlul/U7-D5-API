@@ -42,7 +42,7 @@ const modelHelpers = {
 
   insertTestData: async (dbPool) => {
     await dbPool.query(
-      `INSERT INTO ${config.table} values
+      `INSERT INTO ${dbPoolConfig.table} values
         (DEFAULT, 'Collar Heart', 'collar', 'oro', 20000 , 2),
         (DEFAULT, 'Collar History', 'collar', 'plata', 15000 , 5),
         (DEFAULT, 'Aros Berry', 'aros', 'oro', 12000 , 10),
