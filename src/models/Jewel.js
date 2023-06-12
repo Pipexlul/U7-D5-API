@@ -29,6 +29,7 @@ const getById = async (poolQuery, id) => {
 };
 
 const modelHelpers = {
+  tableName: table,
   createTable: async (dbPool) => {
     try {
       await dbPool.query(
