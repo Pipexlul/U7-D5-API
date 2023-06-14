@@ -7,6 +7,7 @@ import routeValidators from "../../middleware/validators/routes.js";
 const router = express.Router();
 
 router.get("/", jewelQueries, JewelController.getJewels);
+router.get("/filter", jewelQueries, JewelController.getJewelsFilter);
 router.get("/:id", routeValidators.getJewel, JewelController.getJewel);
 
 export default router;

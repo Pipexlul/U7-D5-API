@@ -9,7 +9,7 @@ import { transformResponse } from "../utils/HATEOAS.js";
 
 const getJewels = async (req, res) => {
   try {
-    const { limit = 5, page = 1, order_by } = req.query.base;
+    const { limit, page, order_by } = req.query.base;
 
     const result = await Jewel.getAll(limit, page, order_by);
 
@@ -45,7 +45,35 @@ const getJewel = async (req, res) => {
   }
 };
 
+const getJewelsFilter = async (req, res) => {
+  try {
+    const paramsToArray = (filterParams) => {
+      const entries = Object.entries(filterParams);
+
+      const result = [];
+      entries.forEach(([key, value]) => {
+        if (value) {
+          result.push({ name: key, value: value });
+        }
+      });
+
+      return result;
+    };
+
+    const { limit, page, order_by } = req.query.base;
+    const paramsArray = paramsToArray(req.query.filters);
+
+    const result = await Jewel.getAllFilter(limit, page, order_by, paramsArray);
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export default {
   getJewels: asyncMiddleware(getJewels),
+  getJewelsFilter: asyncMiddleware(getJewelsFilter),
   getJewel: asyncMiddleware(getJewel),
 };
