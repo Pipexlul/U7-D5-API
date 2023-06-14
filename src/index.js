@@ -4,38 +4,25 @@ dotenv.config();
 import express from "express";
 import cors from "cors";
 
-import jewelQueries from "./middleware/query/jewelsQueries.js";
+import envConfig from "./config/envConfig.js";
+const { port } = envConfig;
 
-import jewelRoutes from "./routes/jewels.js";
-import jewelsFilterRoutes from "./routes/jewels_filter.js";
-
-import routeValidators from "./middleware/validators/routes.js";
+import jewelRoutes from "./routes/api/jewels.js";
 
 const main = () => {
-  const portNum = parseInt(process.env.TEST_PORT);
-  const DEFAULT_PORT = portNum || 3000;
-  process.env.TEST_PORT = DEFAULT_PORT;
-
   const app = express();
 
   app.use(cors());
   app.use(express.json());
 
-  app.get("/jewels", jewelQueries, jewelRoutes.getJewels);
-  app.get("/jewels/filter", jewelQueries, jewelsFilterRoutes.getJewelsFilter);
-  app.get(
-    "/jewels/:id",
-    jewelQueries,
-    routeValidators.getJewel,
-    jewelRoutes.getJewel
-  );
+  app.use("/jewels", jewelRoutes);
 
-  app.get("*", (req, res) => {
+  app.use((req, res) => {
     res.status(404).json({ error: "Esa ruta no existe!" });
   });
 
-  app.listen(DEFAULT_PORT, () => {
-    console.log(`Server running on port ${DEFAULT_PORT}`);
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
   });
 };
 

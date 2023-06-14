@@ -1,22 +1,34 @@
-import pg from "pg";
 import pgFormat from "pg-format";
+
+import dbPool from "../database/manager.js";
 
 import dbPoolConfig from "../config/dbPoolConfig.js";
 const { table } = dbPoolConfig;
 
-const getAll = async (poolQuery) => {
+import throwErr from "../utils/errorThrower.js";
+
+const getAll = async (limit = 5, page = 1, order_by) => {
   try {
-    const result = await poolQuery(`SELECT * FROM ${table};`);
+    const limitQuery = limit !== -1 ? pgFormat("LIMIT %s", limit) : "";
+    const offsetQuery =
+      limit !== -1 ? pgFormat("OFFSET %s", (page - 1) * limit) : "";
+    const orderByQuery = order_by
+      ? pgFormat("ORDER BY %s %s", order_by.column, order_by.order)
+      : "";
+
+    const finalQuery = `SELECT * FROM ${table} ${orderByQuery} ${offsetQuery} ${limitQuery};`;
+
+    const result = await dbPool.query(finalQuery);
     return result.rows;
   } catch (err) {
-    throw new Error(err.message || err);
+    throw throwErr(err);
   }
 };
 
-const getById = async (poolQuery, id) => {
+const getById = async (id) => {
   try {
     const query = pgFormat(`SELECT * FROM ${table} WHERE id = %L;`, id);
-    const result = await poolQuery(query);
+    const result = await dbPool.query(query);
 
     if (result.rows.length === 0) {
       return null;
@@ -24,7 +36,7 @@ const getById = async (poolQuery, id) => {
 
     return result.rows[0];
   } catch (err) {
-    throw new Error(err.message || err);
+    throw throwErr(err);
   }
 };
 
