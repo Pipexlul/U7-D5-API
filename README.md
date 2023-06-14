@@ -11,10 +11,10 @@
 
 - Correr el proyecto con el comando:
   `npm run start` <br/>
-  <b>Esto hara que la base de datos se vuelva a crear cada vez que se corra el comando. Recomiendo usar esta comando por lo menos 1 vez para crear la base de datos</b>
+  <b>Esto hará que la base de datos se cree si esta no existe, pero si se encuentra, no se volverá a crear.</b>
 
-- Opcional: Correr el proyecto con el siguiente comando para evitar volver a recrear la base de datos:
-  `npm run start:skip`
+- Opcional: Correr el proyecto con el siguiente comando para forzar la creación de la base de datos:</br>
+  `npm run start:force`
 
 - Llamar los endpoints <br/>
   `GET /jewels` <br/>

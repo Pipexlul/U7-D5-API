@@ -62,11 +62,12 @@ const buildWhereClause = (params) => {
   }, "WHERE ");
 
   if (whereClause.endsWith("AND ")) {
-    console.log("xd", whereClause.substring(0, whereClause.length - 4));
     return whereClause.substring(0, whereClause.length - 4);
   }
 
   return whereClause;
 };
 
-export { buildWhereClause };
+const initDatabase = async () => {};
+
+export { buildWhereClause, initDatabase };
